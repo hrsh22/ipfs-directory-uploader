@@ -1,35 +1,37 @@
 "use client"
 import { useState } from 'react';
 import { NFTStorage } from 'nft.storage';
-import { axios } from 'axios';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export default function UploadDirectory() {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadStatus, setUploadStatus] = useState('');
   const [directoryPath,   setDirectoryPath] = useState('');
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDhDNkQ4M2JiYzNiOWI5OUIwZENBOWNEOGM2NWZFMTJENWE3Qjk3NGUiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY4NjY4OTE1NzAwMSwibmFtZSI6IkRpcmVjdG9yeSBVcGxvYWQifQ.DGXR13otN-xyO-9ARuurAo4pRhk17BfS6U-I2FdQESk";
+  const token = process.env.NEXT_PUBLIC_NFT_STORAGE_API;
 
   const handleFileInputChange = ({ target }) => {
     const { files } = target;
     setSelectedFiles(Array.from(files).map((file) => file));
   };
 
-  function getFileMimeType(fileType) {
-    switch (fileType) {
-      case "jpg":
-      case "jpeg":
-        return "image/jpeg";
-      case "png":
-        return "image/png";
-      case "gif":
-        return "image/gif";
-      case "json":
-        return "application/json";
-      default:
-        return "application/octet-stream";
-    }
-  }
+  // function getFileMimeType(fileType) {
+  //   switch (fileType) {
+  //     case "jpg":
+  //     case "jpeg":
+  //       return "image/jpeg";
+  //     case "png":
+  //       return "image/png";
+  //     case "gif":
+  //       return "image/gif";
+  //     case "json":
+  //       return "application/json";
+  //     default:
+  //       return "application/octet-stream";
+  //   }
+  // }
 
   const uploadToIPFS = async (files) => {
     try {
